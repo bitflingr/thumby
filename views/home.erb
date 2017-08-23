@@ -1,0 +1,75 @@
+
+<div class="row">
+	<div class="span4">
+		
+		<script>
+		  $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+		</script>
+		<form class="form" method="get" action="/">
+			<legend>Create a thumbnail</legend>
+		  <div class="control-group">
+		    <label class="control-label" for="url">URL</label>
+		    <div class="controls">
+		      <input class="input-xlarge" 
+		      	type="text" 
+		      	name="url" 
+		      	id="url" 
+		      	placeholder="http://campainwebsite.com/image.jpg" 
+		      	<% if params[:url] %> value=<%= params[:url] %><% end %>
+		      	data-validation-regex-regex="http://.*"
+		      	data-validation-regex-message="Must start with 'http://'">
+		      <p class="help-block"></p>
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label" for="size">Size</label>
+		    <div class="controls">
+		      <input class="input-xlarge"
+		      	type="text"
+		      	name="size" 
+		      	id="size" 
+		      	placeholder="50x50" 
+		      	<% if params[:size] %> value=<%= params[:size] %> <% end %>
+		      	data-validation-regex-regex="[0-9]*x[0-9]*"
+		      	data-validation-regex-message="must be in <width>x<height> format (ie. 50x50)">
+		    </div>
+		  </div>
+
+		  <div class="control-group">
+		    <label class="control-label" for="gravity">Gravity</label>
+		    <div class="controls">
+		  		<select name="gravity" id="gravity">
+  					<option<% if params[:gravity] == "Centered" %> selected="selected" <% end %>>Center</option>
+  					<option<% if params[:gravity] == "North" %> selected="selected" <% end %>>North</option>
+  					<option<% if params[:gravity] == "NorthWest" %> selected="selected" <% end %>>NorthWest</option>
+  					<option<% if params[:gravity] == "NorthEast" %> selected="selected" <% end %>>NorthEast</option>
+  					<option<% if params[:gravity] == "West" %> selected="selected" <% end %>>West</option>
+  					<option<% if params[:gravity] == "East" %> selected="selected" <% end %>>East</option>
+  					<option<% if params[:gravity] == "South" %> selected="selected" <% end %>>South</option>
+  					<option<% if params[:gravity] == "SouthWest" %> selected="selected" <% end %>>SouthWest</option>
+  					<option<% if params[:gravity] == "SouthEast" %> selected="selected" <% end %>>SouthEast</option>
+					</select>
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <div class="controls">
+		      <button type="submit" class="btn btn-primary">Generate</button>
+		    </div>
+		  </div>
+		</form>
+	</div><!-- end /.span6 -->
+
+	<div class="span8">
+		<form>
+		<legend>Preview</legend>
+			<div class="input-append">
+				<label class="control-label" for="url">Copy+Paste the URL into Admin Pages</label>
+				<input class="input-xxlarge" name="previewurl" id="previewurl" type="text" value="<%= @preview_prefix %>/t/<%= @uri if @uri %>">
+				<button class="btn btn-primary" id="copy-button" data-clipboard-target="previewurl" title="Click to copy me.">Copy to Clipboard</button>
+				<script src="/js/ZeroClipboard.js"></script>
+		    <script src="/js/0cb.js"></script>
+	  	</div>
+  	</form>
+  	<img src="<%= @preview_prefix + "/t/" + @uri if @uri %>">
+	</div><!-- end /.span6 -->
+</div><!-- end /.row -->

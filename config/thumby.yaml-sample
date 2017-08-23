@@ -1,0 +1,13 @@
+:preview_server: http://localhost:4567
+:thumby_hostnames:
+  - 'thumby.com'
+  - 'thumby.net'
+:options:
+  :convert_command: /usr/local/bin/convert
+  :identify_command: /usr/local/bin/identify
+  :cache_duration: 86400
+  :encryption_key: CHANGE_THIS_KEY
+  :encryption_iv:  CHANGE_THIS_TOO
+  :gif_mode:  single    # single or animated.  single will select the first frame in a gif.
+  :blur_mode: disabled
+  :max_size:  2000

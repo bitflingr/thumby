@@ -1,0 +1,38 @@
+##################
+### Temp files ###
+##################
+.DS_Store
+*.swp
+/.bundle
+/log/*
+/spec/tmp/*
+/tmp/dragonfly*
+/tmp/open*
+/tmp/puma.state
+coverage
+.rspec
+.ruby-version
+.ruby-gemset
+
+###################
+### Local files ###
+###################
+/db/*.sqlite3
+.rspec
+.ruby-version
+.ruby-gemset
+.rvmrc
+/config/thumby.yaml
+/config/warble.rb
+
+############
+### IDE ####
+############
+.idea/
+*.sublime*
+
+#####################
+### Package files ###
+#####################
+*.zip
+*.war
