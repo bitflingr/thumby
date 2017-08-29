@@ -17,4 +17,5 @@ group :development do
   gem 'simplecov'
   gem 'simplecov-rcov'
   gem 'shotgun'
+  gem 'rake'
 end
