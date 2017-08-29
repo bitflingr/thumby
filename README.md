@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/bitflingr/thumby.svg?branch=master)](https://travis-ci.org/bitflingr/thumby)
+
 ## What?
 
 A simple image resizer using Dragonfly, Sinatra and a few beers.
@@ -27,7 +29,7 @@ In config/ copy thumby.yaml-sample to thumby.yaml.
       :max_size:  2000
 
 #### thumby_hostnames:
-That is just used to link the splash page to
+That is just used to link the splash page.
 
 
 ## Creating Thumbnails?
@@ -69,7 +71,7 @@ Url-safe base64 encoded AES128 encrypted string (That's a mouth full!) with a sa
 
 ## What's this built from?
 
-* Ruby 1.9.2
+* Ruby 2.3.3
 * [Sinatra](http://sinatrarb.com)
 * [Dragonfly gem](https://github.com/markevans/dragonfly)
 * Imagemagick
@@ -78,10 +80,11 @@ Url-safe base64 encoded AES128 encrypted string (That's a mouth full!) with a sa
 
 ## Contact?
 
-Jarrett Irons / <jarrett@gravity.com>
+Jarrett Irons / <jarrett.irons@gmail.com>
 
 
 ## Todo
 
-* Upgrade to Ruby 2.1.
+* Add AWS Recognition support for face detection.
+* Possibly add OpenCV.
 * Possibly cache images locally on server for even faster response from origin. Currently using Nginx proxy\_cache but you can also use Varnish.
