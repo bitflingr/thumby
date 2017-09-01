@@ -14,5 +14,4 @@ else
   config = {:thumby_hostnames => %w( thumby thumby.heroku.com ), :preview_server => 'http://thumby', :options => {:nil => true}}
 end
 
-#NewRelic::Agent.after_fork(:force_reconnect => true)
 run Thumby::SinatraApp.new(config[:thumby_hostnames], config[:preview_server], config[:options])
