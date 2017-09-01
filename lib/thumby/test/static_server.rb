@@ -19,28 +19,27 @@ class Thumby
           end
         end
 
-        # wait for opening port
-        # while port_open?('127.0.0.1', port, 1)
-        #   sleep 0.01
-        # end
-        # sleep 0.1
+        #wait for opening port
+        while port_open?('127.0.0.1', port, 1)
+          sleep 0.01
+        end
+        sleep 0.1
 
         puts "Running StaticServer => http://localhost:#{port}, DocumentRoot: #{root_dir}"
-        "http://localhost:#{port}"
       end
 
-      # def self.port_open?(ip, port, seconds = 1)
-      #   Timeout::timeout(seconds) do
-      #     begin
-      #       TCPSocket.new(ip, port).close
-      #       true
-      #     rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
-      #       false
-      #     end
-      #   end
-      # rescue Timeout::Error
-      #   false
-      # end
+       def self.port_open?(ip, port, seconds = 1)
+         Timeout::timeout(seconds) do
+           begin
+             TCPSocket.new(ip, port).close
+             true
+           rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
+             false
+           end
+         end
+       rescue Timeout::Error
+         false
+       end
 
     end
   end
