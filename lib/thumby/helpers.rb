@@ -25,7 +25,7 @@ class Thumby
           $logger.error "#{params[:url]} is html and not jpeg or png"
           cache_control :no_cache
           throw :halt, [500, 'Detected url is an html and not a jpeg or png extension']
-        elsif img.empty?
+        elsif img.size == 0
           $logger.error "#{params[:url]} is 0 bytes, cannot resize what is not there..."
           cache_control :no_cache
           throw :halt, [500, 'image is 0 bytes!']
