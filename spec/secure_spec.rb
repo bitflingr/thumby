@@ -26,10 +26,8 @@ describe 'HTTPS and encrypted url Scenarios' do
 
   context 'fetch image that is https' do
     it 'should be able to process images hosted in https' do
-      expect do
-        get '/t/100x100/North/?url=https://spthumbnails.5min.com/10363530/518176453_3v1_570_411.jpg'
-        last_response.status.to eq(200)
-      end
+      get '/t/100x100/North/?url=https://c402277.ssl.cf1.rackcdn.com/photos/11552/images/hero_full/rsz_namibia_will_burrard_lucas_wwf_us_1.jpg?1462219623'
+      expect(last_response.status).to eq(200)
     end
   end
 end
