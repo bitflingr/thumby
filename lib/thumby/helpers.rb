@@ -19,7 +19,6 @@ class Thumby
 
       def resize_image(img, requested_width, requested_height)
         $logger.info "Stripping image #{params[:url]}, TEMPFILE:#{img.tempfile.path}"
-        img.strip!
 
         if img.ext == 'html'
           $logger.error "#{params[:url]} is html and not jpeg or png"
@@ -30,6 +29,7 @@ class Thumby
           cache_control :no_cache
           throw :halt, [500, 'image is 0 bytes!']
         else
+          img.strip!
           img.encode!(img.format)
           img = cleanup_gif(img) if img.ext == 'gif'
           $logger.info "Image #{params[:url]}, WIDTH: #{img.width}, HEIGHT: #{img.height}"

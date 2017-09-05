@@ -10,7 +10,7 @@ class Thumby
       @gif_mode = options[:gif_mode] || 'single'
       @blur_mode = options[:blur_mode] || 'disabled'
       @max_size = options[:max_size] || 2000
-      @thumby_hostnames = thumby_hostnames
+      @thumby_hostnames = thumby_hostnames || ['localhost']
       @aws_access_key_id = options[:aws_access_key_id]
       @aws_secret_access_key = options[:aws_secret_access_key]
       super()

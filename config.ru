@@ -11,7 +11,7 @@ require 'thumby'
 if File.exists?(File.expand_path("../config/thumby.yaml", __FILE__))
   config = YAML.load_file(File.expand_path("../config/thumby.yaml", __FILE__))
 else
-  config = {:thumby_hostnames => %w( thumby thumby.heroku.com ), :preview_server => 'http://thumby', :options => {:nil => true}}
+  config = {:thumby_hostnames => %w( thumby localhost ), :preview_server => 'http://thumby', :options => {:nil => true}}
 end
 
 run Thumby::SinatraApp.new(config[:thumby_hostnames], config[:preview_server], config[:options])
