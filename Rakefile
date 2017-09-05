@@ -8,11 +8,6 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
 end
 
-RSpec::Core::RakeTask.new(:cov) do |spec|
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-end
-
 task :default => :spec
 
 # output directory - removed with "rake clobber" (needs a "require 'rake/clean'" above)
@@ -23,8 +18,8 @@ task :console do
   begin
     require 'pry'
     gem_name = 'thumby'
-    sh %{pry -I lib -r #{gem_name}.rb}
+    sh %(pry -I lib -r #{gem_name}.rb)
   rescue LoadError => _
-    sh %{irb -rubygems -I lib -r #{gem_name}.rb}
+    sh %(irb -rubygems -I lib -r #{gem_name}.rb)
   end
 end

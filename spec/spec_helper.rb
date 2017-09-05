@@ -30,7 +30,7 @@ module SimpleCov
       def format(result)
         SimpleCov::Formatter::HTMLFormatter.new.format(result)
         #SimpleCov::Formatter::RcovFormatter.new.format(result)
-        #SimpleCov::Formatter::Codecov.new.format(result)
+        SimpleCov::Formatter::Codecov.new.format(result)
       end
     end
   end
