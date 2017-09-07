@@ -21,26 +21,6 @@ end
 def get_final_source_url(uri_str)
   clean_url = sanitize_url(uri_str)
   uri = URI.parse(clean_url)
-  if uri.request_uri =~ /\/t\/e\/.*/ then
-    $logger.info 'Ooooo this looks encrypted/encoded!'
-    params = {}
-    if uri.query != nil then
-      uri.query.split('&').each do |param|
-        key_value = param.split('=')
-        params[key_value[0]] = key_value[1]
-      end
-    end
-    encoded_string = uri.path.gsub(/\/t\/e\//, '')
-    salt = (params['salt'] == nil) ? @encryption_iv : params['salt']
-    decoded_string = decode_string encoded_string
-    decrypted_uri = decrypt_string(salt, decoded_string)
-    if decrypted_uri =~ /\/t\/[a-zA-Z0-9].*\/[a-zA-Z0-9].*\/\?url=/
-      clean_url = sanitize_url(decrypted_uri.split('url=')[-1])
-    else
-      clean_url = sanitize_url(decrypted_uri)
-    end
-    uri = URI.parse(clean_url)
-  end
   final_url = uri.to_s.split('url=')[-1]
   final_url = URI.decode(final_url) if final_url =~ /^https?%3A%2F%2F.*/
   $logger.info "Guessing #{final_url} is the final url to fetch from"

@@ -3,7 +3,6 @@ class Thumby
     helpers do
       require 'thumby/helpers/url_helpers'
       require 'thumby/helpers/http_helpers'
-      require 'thumby/helpers/encrypt_encode_helpers'
 
       def cleanup_gif(img)
         if @gif_mode == 'single'
