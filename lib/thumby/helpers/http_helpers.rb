@@ -47,5 +47,13 @@ def http_request_head(uri_str)
     new_image = resize_image(img,300, 300)
     throw :halt, [502, new_image.data]
 
+  rescue Errno::ECONNREFUSED => cr
+    $logger.error "#{params[:url]} Connection Refused!!!!  Exception: #{cr.message}"
+    cache_control :no_cache
+    content_type :'image/jpeg'
+    response.headers['X-Message'] = "Connection Refused!!!!  Exception: #{cr.message}"
+    img = @image.fetch_file($fallbackimage)
+    new_image = resize_image(img,300, 300)
+    throw :halt, [502, new_image.data]
   end
 end

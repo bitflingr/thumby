@@ -4,7 +4,7 @@ class Thumby
     module StaticServer
 
       def self.run!(options = {})
-        port = options[:port] || 8888
+        port = options[:port] || 9999
         root_dir = options[:root_dir] || Dir.pwd
         thread = Thread.new do
           begin

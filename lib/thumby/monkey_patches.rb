@@ -64,18 +64,22 @@ module Dragonfly
 
       private
 
-      def get(url, redirect_limit=10)
-        raise TooManyRedirects, "url #{url} redirected too many times" if redirect_limit == 0
+      def get(url, redirect_limit = 10)
+        if redirect_limit.zero?
+          raise TooManyRedirects, "url #{url} redirected too many times"
+        end
+
         url = parse_url(url)
         http = Net::HTTP.new(url.host, url.port)
         http.use_ssl = true if url.scheme == 'https'
         response = http.get(url.request_uri)
-        #response = Net::HTTP.get_response(parse_url(url))
+
         case response
-          when Net::HTTPSuccess then response.body || ""
-          when Net::HTTPRedirection then get(response['location'], redirect_limit-1)
-          else
-            response.error!
+        when Net::HTTPSuccess then response.body || ''
+        when Net::HTTPRedirection then get(response['location'],
+                                             redirect_limit - 1)
+        else
+          response.error!
         end
       rescue Net::HTTPExceptions => e
         raise ErrorResponse.new(e.response.code.to_i, e.response.body)
@@ -88,7 +92,7 @@ module Dragonfly
           ext = app.ext_for(mime_type)
           job.content.update(data, 'name' => "file.#{ext}")
         else
-          raise CannotHandle, "fetch_url can only deal with base64-encoded data uris with specified content type"
+          raise CannotHandle, 'fetch_url can only deal with base64-encoded data uris with specified content type'
         end
       end
 
