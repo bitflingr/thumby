@@ -9,13 +9,31 @@ describe 'Handling connection errors' do
     end
   end
 
-  # context 'receive timeout error when fetching from source' do
-  #   it 'it should throw a handled exception error.' do
-  #     get '/t/100x100/North/?url=http://localhost:9999/500x500.png'
-  #     raise_error(Timeout::Error)
-  #     expect(last_response.status).to eq(502)
-  #     # Net::HTTP.should_receive(:request_get).and_raise(Timeout::Error)
-  #     expect(last_response.header['X-Message']).to match(/^Connection Refused!!!!  Exception: Failed to open TCP connection to(.*)\(Connection refused - connect\(2\) for (.*)\)/)
-  #   end
-  # end
+  context 'receive timeout error when fetching from source' do
+    it 'it should throw a handled exception error.' do
+      stubbed_request = stub_request(:any, 'http://webmo.ck/timeout.png').
+        with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+          to_timeout
+
+      get '/t/100x100/North/?url=http://webmo.ck/timeout.png'
+      expect(last_response.status).to eq(504)
+      expect(last_response.header['X-Message']).to match(/^Gateway Timeout - (.*)$/)
+
+      remove_request_stub(stubbed_request)
+    end
+  end
+
+  context 'receive socket error when fetching from source' do
+    it 'it should throw a handled exception error.' do
+      stubbed_request = stub_request(:any, 'http://webmo.ck/socket.png').
+        with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+        to_raise(SocketError)
+
+      get '/t/100x100/North/?url=http://webmo.ck/socket.png'
+      expect(last_response.status).to eq(502)
+      expect(last_response.header['X-Message']).to match(/^Socket Error: (.*)$/)
+
+      remove_request_stub(stubbed_request)
+    end
+  end
 end

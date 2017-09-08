@@ -3,6 +3,7 @@ class Thumby
     helpers do
       require 'thumby/helpers/url_helpers'
       require 'thumby/helpers/http_helpers'
+      require 'thumby/helpers/decode_helpers'
 
       def cleanup_gif(img)
         if @gif_mode == 'single'
@@ -19,11 +20,7 @@ class Thumby
       def resize_image(img, requested_width, requested_height)
         $logger.info "Stripping image #{params[:url]}, TEMPFILE:#{img.tempfile.path}"
 
-        if img.ext == 'html'
-          $logger.error "#{params[:url]} is html and not jpeg or png"
-          cache_control :no_cache
-          throw :halt, [500, 'Detected url is an html and not a jpeg or png extension']
-        elsif img.size == 0
+        if img.size == 0
           $logger.error "#{params[:url]} is 0 bytes, cannot resize what is not there..."
           cache_control :no_cache
           throw :halt, [500, 'image is 0 bytes!']
@@ -39,18 +36,8 @@ class Thumby
 
           # BLUR_MODE ENABLED
           elsif @blur_mode == 'enabled'
-            # If image height is 1.5 times larger than requested height and the thumby config for blur_mode is 'enabled'.
-            # This is so if the config has blur_mode 'enabled' and the request came through '/t/' we blur images that are 1.5 times larger than requested height to have portrait images fit in landscapes.
-            if img.height > ((requested_height * 1.5)) && @blur_mode == 'enabled'
-              $logger.info 'Blur Mode enabled.'
-              $logger.info "Requested image height(#{img.height}) is greater than requested height(#{requested_height}) * 1.5"
-              img = blur_padding(img, requested_width, requested_height)
-
-            # This blur_mode is typically overridden when uri request is /b/*
-            else @blur_mode == 'enabled'
-                 $logger.info 'Blur Mode enabled.'
-                 img = blur_padding(img, requested_width, requested_height)
-            end
+            $logger.info 'Blur Mode enabled.'
+            img = blur_padding(img, requested_width, requested_height)
 
           # BLUR_DISABLED
           else
@@ -64,8 +51,6 @@ class Thumby
               img = img.thumb("#{requested_width}x#{requested_height}##{$gravity_map[params[:gravity]]}") # if img.ext != 'gif'
             end
           end
-
-          # $logger.info "Encoding image #{params[:url]}, TEMPFILE:#{img.tempfile.path}" and img.encode!(:jpg) if img.ext != 'gif'
           img.encode!(img.format)
           $logger.info "responding with image #{params[:url]}"
           return img
@@ -86,16 +71,6 @@ class Thumby
         layered_img = img.layer_thumb(bg_path: foreground_image.file.path)
         $logger.info "returning layered image #{params[:url]}"
         layered_img
-      end
-
-      def orientation?(width, height)
-        if width > height
-          'landscape'
-        elsif width < height
-          'portrait'
-        elsif width == height
-          'square'
-        end
       end
 
       def throw_default_image(code, message)

@@ -1,6 +1,15 @@
 def strip_redirects(uri_str, limit = 3)
   # You should choose a better exception.
-  raise ArgumentError, 'too many HTTP redirects' if limit == 0
+  if limit == 0
+    $logger.error "#{params[:url]} lead to redirect loop"
+    cache_control :no_cache
+    content_type :'image/jpeg'
+    response.headers['X-Message'] = 'Detected redirect loop'
+    img = @image.fetch_file($fallbackimage)
+    new_image = resize_image(img,300, 300)
+    throw :halt, [504, new_image.data]
+  end
+
   uri_str = sanitize_url(uri_str)
   uri_parsed = URI.parse(uri_str)
   response = http_request_head(uri_str)

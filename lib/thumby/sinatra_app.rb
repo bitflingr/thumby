@@ -138,7 +138,7 @@ class Thumby
 
     get '/t/:dimensions/:gravity/:base64' do
       $logger.info 'Recieved an encoded url.  Attempting to decode'
-      @decoded_url = Base64.urlsafe_decode64(params[:base64])
+      @decoded_url = decode_string(params[:base64])
       $logger.info "decoded string is #{@decoded_url}"
       request.path_info = "/t/#{params[:dimensions]}/#{params[:gravity]}/"
       request.env['REQUEST_URI'] = "/t/#{params[:dimensions]}/#{params[:gravity]}/?url=#{@decoded_url}"
@@ -173,26 +173,6 @@ class Thumby
         status error_response.status
         content_type :'image/jpeg'
         response.headers['X-Message'] = "URL returned #{error_response.status} - #{url}"
-        img = @image.fetch_file($fallbackimage)
-        new_image = resize_image(img,requested_width, requested_height)
-        new_image.data
-
-      rescue Timeout::Error => to
-        $logger.error "#{params[:url]} Timed Out!!!!}"
-        cache_control :no_cache
-        status 504
-        content_type :'image/jpeg'
-        response.headers['X-Message'] = "Gateway Timeout - #{url}"
-        img = @image.fetch_file($fallbackimage)
-        new_image = resize_image(img,requested_width, requested_height)
-        new_image.data
-
-      rescue SocketError => se
-        $logger.error "#{params[:url]} Socket Error!!!!  Exception: #{se.message}"
-        cache_control :no_cache
-        status 502
-        content_type :'image/jpeg'
-        response.headers['X-Message'] = "Socket Error: #{se.message}|#{url}"
         img = @image.fetch_file($fallbackimage)
         new_image = resize_image(img,requested_width, requested_height)
         new_image.data

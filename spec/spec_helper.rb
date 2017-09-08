@@ -1,10 +1,16 @@
 #$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 ENV['RACK_ENV'] = 'test'
+require 'webmock/rspec'
 require 'simplecov'
 require 'simplecov-rcov'
 require 'codecov'
 require 'rack/test'
 require 'rspec/core'
+
+WebMock.disable_net_connect!(allow: [
+  'localhost',
+  'www.google.com',
+  'c402277.ssl.cf1.rackcdn.com'])
 
 module RSpecMixin # :nodoc:
   include Rack::Test::Methods
