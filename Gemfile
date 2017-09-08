@@ -22,5 +22,6 @@ group :test do
   gem 'codecov', :require => false
   gem 'simplecov', :require => false
   gem 'simplecov-rcov', :require => false
+  gem 'webmock', :require => false
 end
 
