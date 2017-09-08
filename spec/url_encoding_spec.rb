@@ -50,4 +50,12 @@ describe 'URL Encoding Scenarios' do
     end
   end
 
+  context 'Fetching image from url that is base64 encoded.' do
+    it 'returns 200' do
+      get '/t/200x200/North/aHR0cDovL2xvY2FsaG9zdDo5OTk5LzUwMHg1MDAucG5n'
+      expect(last_response).to be_ok
+    end
+  end
+
+
 end
