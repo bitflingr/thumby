@@ -109,47 +109,32 @@ class Thumby
       'OK'
     end
 
-    get '/rekognition/' do
-      $logger.info 'Rekognition path...'
-      #clean_url = @decoded_url ? sanitize_url(@decoded_url) : sanitize_url(params[:url])
-      #url = is_thumby_url?(clean_url) ? strip_redirects(get_final_source_url(clean_url)) : strip_redirects(clean_url)
-
-      rekognition_client = Aws::Rekognition::Client.new(
-        region: 'us-west-2',
-        access_key_id: @aws_access_key_id,
-        secret_access_key: @aws_secret_access_key
-      )
-      #require 'pp'
-      results = rekognition_client.detect_faces({
-        image: {
-          s3_object: {
-            bucket: "grv-imagedrop",
-            name: "/blacklist/1260/original/Blacklist_CatchUp_Meta_v1_300x300.jpg.jpg",
-          },
-        },
-      })
-
-      #results = rekognition_client.detect_faces(img)
-      status 200
-      results
-      #new_image = params[:dimensions] == 'original' ? img.encode(img.format) : resize_image(img, requested_width, requested_height)
-
-    end
-
-    get '/t/e/:encoded_aes?*' do
-      $logger.info 'Recieved an encrypted url.  Attempting to decode and decrypt'
-      decoded_string = decode_string params[:encoded_aes]
-      decrypted_string = decrypt_string params[:salt], decoded_string
-      url = URI.parse(decrypted_string)
-
-      query_param = {}
-      url.query.split('?').each{ |q| kv = q.split('='); query_param[:"#{kv[0]}"] = kv[1] }
-      @decoded_url = query_param[:url] if query_param.has_key?(:url)
-      request.path_info = url.path
-      request.env['REQUEST_URI'] = url.path + '?' + url.query
-      $logger.info "Passing the decrypted URI to the next matched Sinatra route #{request.env['REQUEST_URI']}"
-      pass
-    end
+    # get '/rekognition/' do
+    #   $logger.info 'Rekognition path...'
+    #   #clean_url = @decoded_url ? sanitize_url(@decoded_url) : sanitize_url(params[:url])
+    #   #url = is_thumby_url?(clean_url) ? strip_redirects(get_final_source_url(clean_url)) : strip_redirects(clean_url)
+    #
+    #   rekognition_client = Aws::Rekognition::Client.new(
+    #     region: 'us-west-2',
+    #     access_key_id: @aws_access_key_id,
+    #     secret_access_key: @aws_secret_access_key
+    #   )
+    #   #require 'pp'
+    #   results = rekognition_client.detect_faces({
+    #     image: {
+    #       s3_object: {
+    #         bucket: "grv-imagedrop",
+    #         name: "/blacklist/1260/original/Blacklist_CatchUp_Meta_v1_300x300.jpg.jpg",
+    #       },
+    #     },
+    #   })
+    #
+    #   #results = rekognition_client.detect_faces(img)
+    #   status 200
+    #   results
+    #   #new_image = params[:dimensions] == 'original' ? img.encode(img.format) : resize_image(img, requested_width, requested_height)
+    #
+    # end
 
     get '/t/:dimensions/:gravity/:base64' do
       $logger.info 'Recieved an encoded url.  Attempting to decode'
