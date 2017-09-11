@@ -2,12 +2,7 @@ def strip_redirects(uri_str, limit = 3)
   # You should choose a better exception.
   if limit == 0
     $logger.error "#{params[:url]} lead to redirect loop"
-    cache_control :no_cache
-    content_type :'image/jpeg'
-    response.headers['X-Message'] = 'Detected redirect loop'
-    img = @image.fetch_file($fallbackimage)
-    new_image = resize_image(img,300, 300)
-    throw :halt, [504, new_image.data]
+    throw_default_image 504, 'Detected redirect loop'
   end
 
   uri_str = sanitize_url(uri_str)
@@ -22,8 +17,7 @@ def strip_redirects(uri_str, limit = 3)
     strip_redirects(redirect_location, limit - 1)
   elsif response['content-type'] == 'text/html' and response.code == '200' then
     $logger.error "#{params[:url]} is html and not jpeg or png"
-    cache_control :no_cache
-    throw :halt, [500, 'Detected url is an html and not a jpeg or png extension']
+    throw_default_image 500, 'Detected url is an html and not a jpeg or png extension'
   else
     uri_str
   end
@@ -40,29 +34,12 @@ def http_request_head(uri_str)
     return resp
   rescue Timeout::Error => e
     $logger.error "#{e.message}: to => #{params[:url]}"
-    cache_control :no_cache
-    content_type :'image/jpeg'
-    response.headers['X-Message'] = "Gateway Timeout - #{url}"
-    img = @image.fetch_file($fallbackimage)
-    new_image = resize_image(img, 300, 300)
-    throw :halt, [504, new_image.data]
-
+    throw_default_image 504, "Gateway Timeout - #{url}"
   rescue SocketError => se
     $logger.error "#{params[:url]} Socket Error!!!!  Exception: #{se.message}"
-    cache_control :no_cache
-    content_type :'image/jpeg'
-    response.headers['X-Message'] = "Socket Error: #{se.message}, Origin: #{url}"
-    img = @image.fetch_file($fallbackimage)
-    new_image = resize_image(img,300, 300)
-    throw :halt, [502, new_image.data]
-
+    throw_default_image 502, "Socket Error: #{se.message}, Origin: #{url}"
   rescue Errno::ECONNREFUSED => cr
     $logger.error "#{params[:url]} Connection Refused!!!!  Exception: #{cr.message}"
-    cache_control :no_cache
-    content_type :'image/jpeg'
-    response.headers['X-Message'] = "Connection Refused!!!!  Exception: #{cr.message}"
-    img = @image.fetch_file($fallbackimage)
-    new_image = resize_image(img,300, 300)
-    throw :halt, [502, new_image.data]
+    throw_default_image 502, "Connection Refused!!!!  Exception: #{cr.message}"
   end
 end
