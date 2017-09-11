@@ -4,7 +4,11 @@ def decode_string(base64_string)
   rescue ArgumentError
     $logger.error "#{base64_string} Invalid Base64!!!!"
     cache_control :no_cache
-    throw :halt, [400, 'Invalid Base64 - ' + base64_string]
+    content_type :'image/jpeg'
+    response.headers['X-Message'] = 'Invalid Base64 - ' + base64_string
+    img = @image.fetch_file($fallbackimage)
+    new_image = resize_image(img, 300, 300)
+    throw :halt, [400, new_image.data]
   end
-  return decoded_string
+  decoded_string
 end

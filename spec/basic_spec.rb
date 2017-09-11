@@ -29,4 +29,11 @@ describe 'The Basic Endpoints' do
       expect(last_response.status).to eq(200)
     end
   end
+
+  context 'Fetching a normal image with all params' do
+    it 'returns 200' do
+      get '/t/200x200/North/?url=http://localhost:9999/500x500.png'
+      expect(last_response).to be_ok
+    end
+  end
 end

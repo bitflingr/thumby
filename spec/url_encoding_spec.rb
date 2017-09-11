@@ -1,13 +1,6 @@
 require File.expand_path '../spec_helper.rb', __FILE__
 
 describe 'URL Encoding Scenarios' do
-  context 'Fetching a normal image with all params' do
-    it 'returns 200' do
-      get '/t/200x200/North/?url=http://localhost:9999/500x500.png'
-      expect(last_response).to be_ok
-    end
-  end
-
   context 'Fetching a image with abnormal chars' do
     it 'returns 200' do
       get '/t/200x200/North/?url=http%3A%2F%2Flocalhost:9999%2F500%20500.png'
@@ -49,13 +42,4 @@ describe 'URL Encoding Scenarios' do
       expect(last_response).to be_ok
     end
   end
-
-  context 'Fetching image from url that is base64 encoded.' do
-    it 'returns 200' do
-      get '/t/200x200/North/aHR0cDovL2xvY2FsaG9zdDo5OTk5LzUwMHg1MDAucG5n'
-      expect(last_response).to be_ok
-    end
-  end
-
-
 end
