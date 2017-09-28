@@ -7,14 +7,15 @@ gem 'dragonfly', '~>1.0.3'
 gem 'kramdown', '~>1.7.0'
 gem 'addressable'
 gem 'puma', '~>3.4.0'
-gem 'aws-sdk'
+#gem 'aws-sdk'
+gem 'json'
+gem 'rake'
 
 group :development do
 	gem 'pry'
   gem 'rack-test'
   gem 'rdoc'
   gem 'bundler'
-  gem 'rake'
 end
 
 group :test do

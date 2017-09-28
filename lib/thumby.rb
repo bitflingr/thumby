@@ -9,7 +9,7 @@ require 'net/http'
 require 'base64'
 require 'openssl'
 require 'addressable/uri'
-require 'aws-sdk'
+# require 'aws-sdk'
 
 class Thumby # :nodoc:
   require 'thumby/monkey_patches'
