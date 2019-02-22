@@ -1,21 +1,23 @@
 source 'https://rubygems.org'
 
-gem 'sinatra', '~>2.0.0'
+gem 'sinatra', '>= 2.0.2'
 gem 'sinatra-simple-navigation', '~>4.1.0'
 gem 'sinatra-static-assets', '~>1.0.4'
 gem 'dragonfly', '~>1.0.3'
 gem 'kramdown', '~>1.7.0'
+gem 'bigdecimal'
 gem 'addressable'
-gem 'puma', '~>3.4.0'
-#gem 'aws-sdk'
+gem 'puma', '~>3.12.0'
 gem 'json'
 gem 'rake'
+gem 'ffi', '>= 1.9.24'
 
 group :development do
 	gem 'pry'
   gem 'rack-test'
   gem 'rdoc'
   gem 'bundler'
+  gem 'shotgun'
 end
 
 group :test do
