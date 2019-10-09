@@ -33,7 +33,7 @@ class Thumby
     end
 
     configure :test do
-      $logger = Logger.new(NIL)
+      $logger = Logger.new(IO::NULL)
     end
 
     configure do
@@ -93,7 +93,7 @@ class Thumby
 
         end
 
-      Dragonfly.logger = Logger.new(NIL)
+      Dragonfly.logger = Logger.new(IO::NULL)
       @preview_prefix = @preview_server
     end
 
