@@ -51,7 +51,7 @@ class Thumby
               img = img.thumb("#{requested_width}x#{requested_height}##{$gravity_map[params[:gravity]]}") # if img.ext != 'gif'
             end
           end
-          img.encode!(img.format)
+          # img.encode!(img.format)
           $logger.info "responding with image #{params[:url]}"
           return img
         end

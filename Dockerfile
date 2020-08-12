@@ -1,6 +1,6 @@
 #FROM alpine
 FROM ruby:2.5
-MAINTAINER Jarrett Irons <jarrett@gravity.com>
+MAINTAINER Jarrett Irons <jarrett.irons@gmail.com>
 
 #ENV BUILD_PACKAGES bash curl-dev ruby-dev build-base imagemagick
 #ENV RUBY_PACKAGES ruby ruby-io-console ruby-bundler

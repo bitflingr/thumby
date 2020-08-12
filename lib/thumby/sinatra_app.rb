@@ -150,9 +150,13 @@ class Thumby
     get '/:mode/:dimensions/:gravity/?*' do
       clean_url = @decoded_url ? sanitize_url(@decoded_url) : sanitize_url(params[:url])
       url = is_thumby_url?(clean_url) ? strip_redirects(get_final_source_url(clean_url)) : strip_redirects(clean_url)
+      require 'pp'
+      pp params[:dimensions]
       requested_width, requested_height = params[:dimensions].split('x')
       requested_width = requested_width.to_i
       requested_height = requested_height.to_i
+      
+      pp requested_width
       @blur_mode = 'enabled' if params[:mode] == 'b'
 
       $logger.info "Fetching #{url}"
