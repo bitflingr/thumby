@@ -1,5 +1,6 @@
 class Thumby
   class SinatraApp < ::Sinatra::Base
+    include Dragonfly::ImageMagick::Commands
     def initialize(thumby_hostnames, preview_server, options = {})
       @preview_server = preview_server
       @convert_command = options[:convert_command] || 'convert'
@@ -21,10 +22,9 @@ class Thumby
     SimpleNavigation::config_file_paths << File.join(File.expand_path(File.dirname(__FILE__)), '../..', 'config')
 
 
+
     configure :production do
-      logdir = File.join(File.expand_path(File.dirname(__FILE__)), '../..', 'log')
-      Dir.mkdir(logdir) unless File.exist?(logdir)
-      $logger = Logger.new(logdir + '/thumby.log', 7, 'daily')
+      $logger = Logger.new(STDOUT)
       $logger.level = Logger::INFO
     end
 
@@ -57,14 +57,14 @@ class Thumby
       $fallbackimage = File.join(File.expand_path(File.dirname(__FILE__)), '../..', 'public') + '/g-placeholder.png'
     end
 
-
     before do
       logdir = File.join(File.expand_path(File.dirname(__FILE__)), '../..', 'log')
       Dir.mkdir(logdir) unless File.exist?(logdir)
       max_age = @cache_duration
 
-      @image = Dragonfly.app.configure_with(:imagemagick)
-      @image.configure do
+      # @image = Dragonfly.app.configure_with(:imagemagick)
+      # @image.configure do
+      @image = Dragonfly.app.configure do
         plugin :imagemagick,
           convert_command: @convert_command, # defaults to "convert"
           identify_command: @identify_command  # defaults to "identify"
@@ -76,20 +76,24 @@ class Thumby
               job.signature
             end
           end
+        
+        processor :strip do |content|
+          # content.process! :convert, '-strip'
+          Dragonfly::ImageMagick::Commands.convert(content,'-strip')
+          # content.convert('-strip')
+        end
 
-          processor :strip do |content|
-            content.process! :convert, '-strip'
-          end
+        processor :blur do |content|
+          # content.process! :convert, '-blur 0x50'
+          Dragonfly::ImageMagick::Commands.convert(content,"-blur 0x50")
+        end
 
-          processor :blur do |content|
-            content.process! :convert, '-blur 0x50'
-          end
-
-          processor :layer_thumb do |content, *args|
-            args    = args.first || {}
-            bg_layer = args[:bg_path] || 'red'
-            content.process! :convert, "-gravity north #{bg_layer} -composite"
-          end
+        processor :layer_thumb do |content, *args|
+          args    = args.first || {}
+          bg_layer = args[:bg_path] || 'red'
+          # content.process! :convert, "-gravity north #{bg_layer} -composite"
+          Dragonfly::ImageMagick::Commands.convert(content,"-gravity north #{bg_layer} -composite")
+        end
 
         end
 
