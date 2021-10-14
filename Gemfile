@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'sinatra', '~> 2.0.7'
+gem 'sinatra', '~> 2.1.0'
 gem 'sinatra-simple-navigation', '~>4.1.0'
 gem 'sinatra-static-assets', '~>1.0.4'
 gem 'dragonfly', '~>1.4.0'
