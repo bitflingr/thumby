@@ -6,14 +6,15 @@ class Thumby
       require 'thumby/helpers/decode_helpers'
 
       def cleanup_gif(img)
-        if @gif_mode == 'single'
-          $logger.info 'Coalescing GIF, converting to .jpg and selecting first frame'
-          img = img.convert('-coalesce', :format => 'jpg', 'frame' => 0)
-          img = img.encode('jpg')
-        else
-          $logger.info 'Coalescing GIF'
-          img = img.convert('-coalesce')
-        end
+        # if @gif_mode == 'single'
+        #   $logger.info 'Coalescing GIF, converting to .jpg and selecting first frame'
+        #   # img = img.convert('-coalesce', :format => 'jpg', 'frame' => 0)
+        #   img = Dragonfly::ImageMagick::Commands.convert(img, '-coalesce', :format => 'jpg', 'frame' => 1)
+        #   img = img.encode('jpg')
+        # else
+        #   $logger.info 'Coalescing GIF'
+        #   img = img.convert('-coalesce')
+        # end
         img
       end
 
@@ -62,12 +63,13 @@ class Thumby
         $logger.info "Cropping image by height only, HEIGHT: #{requested_height}, TEMPFILE:#{img.tempfile.path}"
         foreground_image = img.thumb("x#{requested_height}")
         $logger.info "BLOWING UP Background image -resize %200x%200^^, TEMPFILE:#{img.tempfile.path}"
-        img = img.convert('-resize %200x%200^^')
+        img = img.thumb('200x200%')
         $logger.info "CROPPING Background image - #{requested_width}x#{requested_height}##{$gravity_map[params[:gravity]]}, TEMPFILE:#{img.tempfile.path}"
         img = img.thumb("#{requested_width}x#{requested_height}##{$gravity_map[params[:gravity]]}")
         $logger.info "BLURRING Background image, TEMPFILE:#{img.tempfile.path}"
         img = img.blur
         $logger.info "Combining images - x#{requested_height}, TEMPFILE:#{img.file.path}"
+        $logger.info "#{foreground_image.file.path}"
         layered_img = img.layer_thumb(bg_path: foreground_image.file.path)
         $logger.info "returning layered image #{params[:url]}"
         layered_img
