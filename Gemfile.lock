@@ -54,7 +54,7 @@ GEM
     puma (4.3.11-java)
       nio4r (~> 2.0)
     rack (2.2.3)
-    rack-protection (2.1.0)
+    rack-protection (2.2.0)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -86,10 +86,10 @@ GEM
     simplecov-html (0.12.2)
     simplecov-rcov (0.2.3)
       simplecov (>= 0.4.1)
-    sinatra (2.1.0)
+    sinatra (2.2.0)
       mustermann (~> 1.0)
       rack (~> 2.2)
-      rack-protection (= 2.1.0)
+      rack-protection (= 2.2.0)
       tilt (~> 2.0)
     sinatra-simple-navigation (4.1.0)
       simple-navigation (~> 4.0)
@@ -131,7 +131,7 @@ DEPENDENCIES
   shotgun
   simplecov
   simplecov-rcov
-  sinatra (~> 2.1.0)
+  sinatra (~> 2.2.0)
   sinatra-simple-navigation (~> 4.1.0)
   sinatra-static-assets (~> 1.0.4)
   webmock
