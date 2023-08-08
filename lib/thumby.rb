@@ -9,6 +9,7 @@ require 'net/http'
 require 'base64'
 require 'openssl'
 require 'addressable/uri'
+require 'erb'
 # require 'aws-sdk'
 
 class Thumby # :nodoc:

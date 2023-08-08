@@ -11,6 +11,7 @@ gem 'puma', '~>4.3.12'
 gem 'json'
 gem 'rake'
 gem 'ffi', '>= 1.9.24'
+gem 'erb', '>= 4.0.2'
 
 group :development do
 	gem 'pry'
