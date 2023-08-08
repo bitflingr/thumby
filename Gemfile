@@ -26,5 +26,6 @@ group :test do
   gem 'simplecov', :require => false
   gem 'simplecov-rcov', :require => false
   gem 'webmock', :require => false
+  gem 'webrick', '>= 1.8.1', :require => false
 end
 

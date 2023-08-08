@@ -8,7 +8,7 @@ require 'bundler'
 require 'thumby'
 #require 'newrelic_rpm'
 
-if File.exists?(File.expand_path("../config/thumby.yaml", __FILE__))
+if File.exist?(File.expand_path("../config/thumby.yaml", __FILE__))
   config = YAML.load_file(File.expand_path("../config/thumby.yaml", __FILE__))
 else
   config = {:thumby_hostnames => %w( thumby localhost ), :preview_server => 'http://thumby', :options => {:nil => true}}
