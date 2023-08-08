@@ -1,5 +1,5 @@
 #FROM alpine
-FROM ruby:2.5
+FROM ruby:3.2.2
 MAINTAINER Jarrett Irons <jarrett.irons@gmail.com>
 
 #ENV BUILD_PACKAGES bash curl-dev ruby-dev build-base imagemagick
