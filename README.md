@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/bitflingr/thumby.svg?branch=master)](https://travis-ci.org/bitflingr/thumby)
-[![codecov](https://codecov.io/gh/bitflingr/thumby/branch/master/graph/badge.svg)](https://codecov.io/gh/bitflingr/thumby)
+[![codecov](https://codecov.io/gh/bitflingr/thumby/branch/main/graph/badge.svg)](https://codecov.io/gh/bitflingr/thumby)
 
 ## What?
 
