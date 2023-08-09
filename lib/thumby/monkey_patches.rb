@@ -1,5 +1,11 @@
-require 'net/http'
+# require 'io/file'
+class File
+  class << self
+    alias_method :exists?, :exist?
+  end
+end
 
+require 'net/http'
 module Net
   class HTTP
     alias old_initialize initialize
